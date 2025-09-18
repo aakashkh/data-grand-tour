@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Lakehouse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .highlight { background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; font-weight: 600; }
+        .nav-header { background: linear-gradient(135deg, #fd7e14 0%, #ff9500 100%); color: white; padding: 1rem 0; }
+        .text-orange { color: #fd7e14; }
+        .badge.bg-orange { background-color: #ffe5d0; color: #fd7e14; }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>🏠 Data Lakehouse</h1>
+                <a href="index.html" class="btn btn-light">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <section class="mb-5">
+            <h2 class="text-orange">Overview</h2>
+            <p class="lead">A <strong>Data Lakehouse</strong> unifies data lake flexibility and data warehouse reliability with <span class="highlight">ACID transactions</span> on open table formats.</p>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-orange">Data Organization</h2>
+            <ul class="list-unstyled">
+                <li class="mb-3"><strong>Bronze Layer:</strong> Raw ingests (append-only)</li>
+                <li class="mb-3"><strong>Silver Layer:</strong> Cleansed & conformed tables</li>
+                <li class="mb-3"><strong>Gold Layer:</strong> Aggregated, business-ready tables</li>
+                <li class="mb-3"><strong>Table Formats:</strong> Delta Lake, Iceberg, Hudi</li>
+                <li class="mb-3"><strong>Metadata Catalog:</strong> Hive Metastore or catalog store</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-orange">Key Components & Patterns</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Components</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><strong>Table Formats:</strong> Delta, Iceberg, Hudi for ACID & time travel</li>
+                        <li class="mb-2"><strong>Streaming Engine:</strong> Spark Structured Streaming</li>
+                        <li class="mb-2"><strong>Object Storage:</strong> S3, ADLS</li>
+                        <li class="mb-2"><strong>Batch Engine:</strong> Spark, Presto, Athena</li>
+                        <li class="mb-2"><strong>Time Travel:</strong> Historical version queries</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Patterns</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><span class="badge bg-orange">ACID Transactions</span> reliable updates</li>
+                        <li class="mb-2"><span class="badge bg-orange">Medallion Layers</span> Bronze→Silver→Gold</li>
+                        <li class="mb-2"><span class="badge bg-orange">Unified Workloads</span> BI, ML, streaming</li>
+                        <li class="mb-2"><span class="badge bg-orange">Compaction</span> small-file optimization</li>
+                        <li class="mb-2"><span class="badge bg-orange">Schema Evolution</span> add/rename columns</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-orange">Use Cases</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Feature Store:</strong> Real-time ML features at Uber scale</li>
+                <li class="list-group-item"><strong>Unified Analytics:</strong> BI + data science on same data</li>
+                <li class="list-group-item"><strong>Time Travel Debugging:</strong> Historical data audits</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-orange">Pros & Cons</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Pros</h5>
+                    <ul class="list-unstyled">
+                        <li>✅ <span class="highlight">Unified platform</span> for BI & ML</li>
+                        <li>✅ ACID & time travel on open storage</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Cons</h5>
+                    <ul class="list-unstyled">
+                        <li>⚠️ Performance vs dedicated warehouse</li>
+                        <li>⚠️ Requires expertise in table formats</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-orange">Day-to-Day Operations</h2>
+            <ul class="list-unstyled">
+                <li class="mb-2"><strong>ACID Operations:</strong> Updates/deletes via SQL</li>
+                <li class="mb-2"><strong>Compaction Jobs:</strong> Background file merging</li>
+                <li class="mb-2"><strong>Time Travel Queries:</strong> Debug historical data</li>
+                <li class="mb-2"><strong>Schema Evolution:</strong> Online adds/renames</li>
+                <li class="mb-2"><strong>Hybrid Workloads:</strong> Mix batch, streaming, BI</li>
+            </ul>
+        </section>
+
+        <div class="text-center mb-4">
+            <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

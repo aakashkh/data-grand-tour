@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Lake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .highlight { background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; font-weight: 600; }
+        .nav-header { background: linear-gradient(135deg, #008080 0%, #20b2aa 100%); color: white; padding: 1rem 0; }
+        .text-teal { color: #008080; }
+        .badge.bg-teal { background-color: #97eeee; color: #008080; }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>🏞️ Data Lake</h1>
+                <a href="index.html" class="btn btn-light">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <section class="mb-5">
+            <h2 class="text-teal">Overview</h2>
+            <p class="lead">A <strong>Data Lake</strong> ingests raw data of any format into a low-cost object store with <span class="highlight">schema-on-read</span> flexibility. It serves as the central repository for batch and streaming data.</p>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-teal">Data Organization</h2>
+            <ul class="list-unstyled">
+                <li class="mb-3"><strong>Landing Zone:</strong> Batch (ADF, Glue) & Streaming (Kafka, Event Hubs)</li>
+                <li class="mb-3"><strong>Raw Zone (Bronze):</strong> Immutable files (Parquet, ORC, JSON, CSV, multimedia)</li>
+                <li class="mb-3"><strong>Curated Zone (Silver):</strong> Cleaned, conformed views/tables</li>
+                <li class="mb-3"><strong>Business Zone (Gold):</strong> Aggregated, business-ready datasets</li>
+                <li class="mb-3"><strong>Data Catalog:</strong> Hive Metastore, Glue Catalog, Azure Purview</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-teal">Key Components & Patterns</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Components</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><strong>Object Storage:</strong> S3, ADLS Gen2</li>
+                        <li class="mb-2"><strong>Compute Engines:</strong> Spark, Presto/Trino, EMR</li>
+                        <li class="mb-2"><strong>Metadata Management:</strong> Automated crawling & profiling</li>
+                        <li class="mb-2"><strong>Security & Governance:</strong> ACLs, encryption, IAM</li>
+                        <li class="mb-2"><strong>Table Formats:</strong> Delta Lake, Iceberg, Hudi</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Patterns</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><span class="badge bg-teal">Bronze→Silver→Gold</span> medallion layers</li>
+                        <li class="mb-2"><span class="badge bg-teal">Schema-on-Read</span> flexibility</li>
+                        <li class="mb-2"><span class="badge bg-teal">Batch & Streaming</span> integration</li>
+                        <li class="mb-2"><span class="badge bg-teal">Incremental Loads</span> via partitions</li>
+                        <li class="mb-2"><span class="badge bg-teal">Sandboxing</span> for prototyping</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-teal">Use Cases</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Log Analytics:</strong> Fraud detection (clickstreams → ADLS Gen2)</li>
+                <li class="list-group-item"><strong>IoT Telemetry:</strong> Predictive maintenance on sensor data</li>
+                <li class="list-group-item"><strong>Data Science Sandboxes:</strong> Exploratory ML on raw datasets</li>
+            </ul>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-teal">Pros & Cons</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Pros</h5>
+                    <ul class="list-unstyled">
+                        <li>✅ <span class="highlight">Ultra-low cost</span> storage & massive scale</li>
+                        <li>✅ Rapid ingestion & experimentation</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>Cons</h5>
+                    <ul class="list-unstyled">
+                        <li>⚠️ Requires <span class="highlight">governance</span> & catalog</li>
+                        <li>⚠️ Query performance needs <span class="highlight">optimization</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-teal">Day-to-Day Operations</h2>
+            <ul class="list-unstyled">
+                <li class="mb-2"><strong>Staging Offload:</strong> ETL staging on object storage</li>
+                <li class="mb-2"><strong>Sandbox Provisioning:</strong> Quick Spark/Presto clusters</li>
+                <li class="mb-2"><strong>Batch Window:</strong> Scheduled off-hours loads</li>
+                <li class="mb-2"><strong>Raw Data Retention:</strong> Unlimited storage</li>
+                <li class="mb-2"><strong>Incremental Loads:</strong> Partitioned folders</li>
+                <li class="mb-2"><strong>Swamp Prevention:</strong> Metadata tagging & retention</li>
+            </ul>
+        </section>
+
+        <div class="text-center mb-4">
+            <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

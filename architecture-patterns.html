@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Patterns Explained</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .highlight { background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; font-weight: 600; }
+        .nav-header { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1rem 0; }
+        .text-success { color: #28a745; }
+        .pattern-card { border-left: 4px solid #28a745; margin-bottom: 2rem; }
+        .code-example { background-color: #f8f9fa; padding: 1rem; border-radius: 5px; font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>🏗️ Architecture Patterns Explained</h1>
+                <a href="index.html" class="btn btn-light">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <section class="mb-5">
+            <h2 class="text-success">Overview</h2>
+            <p class="lead">Modern data architectures use specific <span class="highlight">optimization patterns</span> to ensure performance, cost efficiency, and maintainability.</p>
+        </section>
+
+        <div class="card pattern-card">
+            <div class="card-body">
+                <h3 class="text-success">1. Medallion Architecture (Bronze→Silver→Gold)</h3>
+                <p><strong>What it is:</strong> A data organization pattern that progressively refines data through three layers.</p>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>🥉 Bronze Layer</h5>
+                        <ul>
+                            <li>Raw, unprocessed data</li>
+                            <li>Exact copy from source</li>
+                            <li>Append-only, immutable</li>
+                            <li>All formats (JSON, CSV, Parquet)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>🥈 Silver Layer</h5>
+                        <ul>
+                            <li>Cleaned & validated data</li>
+                            <li>Standardized schemas</li>
+                            <li>Deduplication applied</li>
+                            <li>Business rules enforced</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>🥇 Gold Layer</h5>
+                        <ul>
+                            <li>Business-ready datasets</li>
+                            <li>Aggregated metrics</li>
+                            <li>Optimized for consumption</li>
+                            <li>BI & ML ready</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    <strong>Why use it:</strong> Provides clear data lineage, enables incremental processing, and separates concerns between data engineering and business logic.
+                </div>
+            </div>
+        </div>
+
+        <div class="card pattern-card">
+            <div class="card-body">
+                <h3 class="text-success">2. Compaction Jobs</h3>
+                <p><strong>What it is:</strong> Background processes that merge small files into larger, optimally-sized files.</p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>The Problem</h5>
+                        <ul>
+                            <li>Streaming creates many small files</li>
+                            <li>Small files = poor query performance</li>
+                            <li>Metadata overhead increases</li>
+                            <li>Storage inefficiency</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>The Solution</h5>
+                        <ul>
+                            <li>Merge 1000s of small files → few large files</li>
+                            <li>Target: 128MB - 1GB per file</li>
+                            <li>Run during low-usage windows</li>
+                            <li>Automatic in modern table formats</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="code-example mt-3">
+                    <strong>Example:</strong><br>
+                    Before: 10,000 files × 1MB = 10GB (slow queries)<br>
+                    After: 10 files × 1GB = 10GB (fast queries)
+                </div>
+            </div>
+        </div>
+
+        <div class="card pattern-card">
+            <div class="card-body">
+                <h3 class="text-success">3. Vacuum Operations</h3>
+                <p><strong>What it is:</strong> Cleanup processes that remove old file versions and unused data files.</p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>What Gets Cleaned</h5>
+                        <ul>
+                            <li>Old file versions (after updates/deletes)</li>
+                            <li>Uncommitted transaction files</li>
+                            <li>Temporary processing files</li>
+                            <li>Expired time-travel snapshots</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Configuration</h5>
+                        <ul>
+                            <li><strong>Retention:</strong> Keep 7-30 days of history</li>
+                            <li><strong>Schedule:</strong> Daily/weekly cleanup</li>
+                            <li><strong>Safety:</strong> Never delete active files</li>
+                            <li><strong>Cost:</strong> Reduces storage costs significantly</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning mt-3">
+                    <strong>Important:</strong> Vacuum operations are irreversible. Once old versions are deleted, time-travel queries to those points will fail.
+                </div>
+            </div>
+        </div>
+
+        <div class="card pattern-card">
+            <div class="card-body">
+                <h3 class="text-success">4. Z-Ordering (Data Clustering)</h3>
+                <p><strong>What it is:</strong> A technique that physically reorganizes data to co-locate related information, dramatically improving query performance.</p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>How It Works</h5>
+                        <ul>
+                            <li>Maps multi-dimensional data to 1D</li>
+                            <li>Uses space-filling Z-curve algorithm</li>
+                            <li>Co-locates related data in same files</li>
+                            <li>Reduces data scanning during queries</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>When to Use</h5>
+                        <ul>
+                            <li>Queries filter on multiple columns</li>
+                            <li>Range queries (date ranges, numeric ranges)</li>
+                            <li>Join operations on clustered columns</li>
+                            <li>Large tables with selective queries</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="code-example mt-3">
+                    <strong>Example:</strong><br>
+                    Table: customer_orders (customer_id, order_date, amount)<br>
+                    Z-Order by: customer_id, order_date<br>
+                    Result: Orders for same customer + date range stored together<br>
+                    Query: "Orders for customer 123 in March" → scans 1 file instead of 100
+                </div>
+                
+                <div class="alert alert-success mt-3">
+                    <strong>Performance Impact:</strong> Can improve query performance by 10-100x for selective queries on large tables.
+                </div>
+            </div>
+        </div>
+
+        <div class="card pattern-card">
+            <div class="card-body">
+                <h3 class="text-success">5. Liquid Clustering (Auto-Optimization)</h3>
+                <p><strong>What it is:</strong> Next-generation clustering that automatically optimizes data layout without manual intervention.</p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Key Features</h5>
+                        <ul>
+                            <li><strong>Automatic:</strong> No manual OPTIMIZE commands</li>
+                            <li><strong>Incremental:</strong> Only processes changed data</li>
+                            <li><strong>Adaptive:</strong> Learns from query patterns</li>
+                            <li><strong>Cost-Effective:</strong> Optimizes during writes</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Advantages over Z-Order</h5>
+                        <ul>
+                            <li>No expensive OPTIMIZE operations</li>
+                            <li>Handles changing query patterns</li>
+                            <li>Better for streaming workloads</li>
+                            <li>Supports unlimited clustering keys</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="code-example mt-3">
+                    <strong>Setup Example:</strong><br>
+                    CREATE TABLE sales (<br>
+                    &nbsp;&nbsp;customer_id INT,<br>
+                    &nbsp;&nbsp;order_date DATE,<br>
+                    &nbsp;&nbsp;amount DECIMAL<br>
+                    ) CLUSTER BY (customer_id, order_date);<br><br>
+                    <em>// Data automatically clusters as it's written</em>
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    <strong>Best Practice:</strong> Choose clustering keys based on your most common query filters. Start with 2-3 columns that appear frequently in WHERE clauses.
+                </div>
+            </div>
+        </div>
+
+        <section class="mb-5">
+            <h2 class="text-success">Pattern Selection Guide</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Use Case</th>
+                            <th>Recommended Pattern</th>
+                            <th>Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>New data lake setup</td>
+                            <td>Medallion Architecture</td>
+                            <td>Provides structure and governance</td>
+                        </tr>
+                        <tr>
+                            <td>Streaming data ingestion</td>
+                            <td>Compaction + Liquid Clustering</td>
+                            <td>Handles small files automatically</td>
+                        </tr>
+                        <tr>
+                            <td>Large analytical tables</td>
+                            <td>Z-Ordering</td>
+                            <td>Dramatic query performance improvement</td>
+                        </tr>
+                        <tr>
+                            <td>Cost optimization</td>
+                            <td>Vacuum Operations</td>
+                            <td>Reduces storage costs by 30-70%</td>
+                        </tr>
+                        <tr>
+                            <td>Modern lakehouse</td>
+                            <td>All patterns combined</td>
+                            <td>Maximum performance and efficiency</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="text-center mb-4">
+            <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

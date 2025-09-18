@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution Selection Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .highlight { background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; font-weight: 600; }
+        .nav-header { background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); color: white; padding: 1rem 0; }
+        .text-primary { color: #6c5ce7; }
+        .decision-tree { background-color: #f8f9fa; padding: 2rem; border-radius: 10px; margin: 1rem 0; }
+        .recommendation-card { border-left: 4px solid #6c5ce7; }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>🎯 Solution Selection Guide</h1>
+                <a href="index.html" class="btn btn-light">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <section class="mb-5">
+            <h2 class="text-primary">Decision Framework</h2>
+            <p class="lead">Choose the right data architecture based on your <span class="highlight">business requirements, team maturity, and technical constraints</span>.</p>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-primary">Quick Decision Tree</h2>
+            <div class="decision-tree">
+                <h4>Start Here: What's Your Primary Goal?</h4>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h5>📊 Business Intelligence & Reporting</h5>
+                        <p><strong>→ Modern Data Warehouse</strong></p>
+                        <ul>
+                            <li>Predictable performance</li>
+                            <li>Strong governance</li>
+                            <li>SQL-first approach</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>🤖 Machine Learning & Analytics</h5>
+                        <p><strong>→ Data Lake or Lakehouse</strong></p>
+                        <ul>
+                            <li>Schema flexibility</li>
+                            <li>Cost-effective storage</li>
+                            <li>Support for all data types</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h5>⚡ Real-Time Decision Making</h5>
+                        <p><strong>→ Data Fabric + Streaming</strong></p>
+                        <ul>
+                            <li>Low latency access</li>
+                            <li>Virtualized integration</li>
+                            <li>Real-time processing</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>🏢 Enterprise Scale & Autonomy</h5>
+                        <p><strong>→ Data Mesh</strong></p>
+                        <ul>
+                            <li>Domain ownership</li>
+                            <li>Federated governance</li>
+                            <li>Organizational scalability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-primary">Maturity-Based Recommendations</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card recommendation-card">
+                        <div class="card-body">
+                            <h5>🌱 Starting Out</h5>
+                            <p><strong>Team:</strong> 5-15 people<br>
+                            <strong>Data:</strong> &lt;10TB<br>
+                            <strong>Budget:</strong> Limited</p>
+                            
+                            <h6>Recommended Path:</h6>
+                            <ol>
+                                <li>Start with <strong>Data Lake</strong></li>
+                                <li>Use cloud-managed services</li>
+                                <li>Focus on Bronze→Silver layers</li>
+                                <li>Simple ETL with visual tools</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card recommendation-card">
+                        <div class="card-body">
+                            <h5>🚀 Growing</h5>
+                            <p><strong>Team:</strong> 15-50 people<br>
+                            <strong>Data:</strong> 10TB-1PB<br>
+                            <strong>Budget:</strong> Moderate</p>
+                            
+                            <h6>Recommended Path:</h6>
+                            <ol>
+                                <li>Evolve to <strong>Lakehouse</strong></li>
+                                <li>Implement table formats</li>
+                                <li>Add streaming capabilities</li>
+                                <li>Establish data governance</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card recommendation-card">
+                        <div class="card-body">
+                            <h5>🏢 Enterprise</h5>
+                            <p><strong>Team:</strong> 50+ people<br>
+                            <strong>Data:</strong> &gt;1PB<br>
+                            <strong>Budget:</strong> Substantial</p>
+                            
+                            <h6>Recommended Path:</h6>
+                            <ol>
+                                <li>Consider <strong>Data Mesh</strong></li>
+                                <li>Implement federated governance</li>
+                                <li>Domain-specific platforms</li>
+                                <li>Self-service infrastructure</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-primary">Industry-Specific Recommendations</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Industry</th>
+                            <th>Primary Architecture</th>
+                            <th>Key Requirements</th>
+                            <th>Secondary Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Financial Services</strong></td>
+                            <td>Modern Data Warehouse</td>
+                            <td>Compliance, audit trails, performance</td>
+                            <td>+ Data Fabric for real-time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Healthcare</strong></td>
+                            <td>Data Fabric</td>
+                            <td>Privacy, interoperability, real-time</td>
+                            <td>+ Lakehouse for research</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Retail/E-commerce</strong></td>
+                            <td>Lakehouse</td>
+                            <td>ML/AI, personalization, scale</td>
+                            <td>+ Streaming for real-time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Manufacturing</strong></td>
+                            <td>Data Lake</td>
+                            <td>IoT data, predictive maintenance</td>
+                            <td>+ Real-time for monitoring</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Technology</strong></td>
+                            <td>Data Mesh</td>
+                            <td>Scale, innovation, autonomy</td>
+                            <td>+ Multiple architectures</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-primary">Migration Strategies</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>From Legacy Data Warehouse</h4>
+                    <div class="alert alert-info">
+                        <h6>Phase 1: Hybrid Approach</h6>
+                        <ul class="mb-2">
+                            <li>Keep existing warehouse for critical reports</li>
+                            <li>Build data lake for new use cases</li>
+                            <li>Establish data pipelines</li>
+                        </ul>
+                        
+                        <h6>Phase 2: Modernization</h6>
+                        <ul class="mb-2">
+                            <li>Migrate to cloud data warehouse</li>
+                            <li>Implement lakehouse patterns</li>
+                            <li>Add streaming capabilities</li>
+                        </ul>
+                        
+                        <h6>Phase 3: Optimization</h6>
+                        <ul class="mb-0">
+                            <li>Consolidate architectures</li>
+                            <li>Implement advanced governance</li>
+                            <li>Consider mesh patterns</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Greenfield Implementation</h4>
+                    <div class="alert alert-success">
+                        <h6>Recommended Approach</h6>
+                        <ul class="mb-2">
+                            <li>Start with cloud-native lakehouse</li>
+                            <li>Use managed services (Databricks, Snowflake)</li>
+                            <li>Implement table formats from day one</li>
+                            <li>Build with governance in mind</li>
+                        </ul>
+                        
+                        <h6>Technology Stack</h6>
+                        <ul class="mb-0">
+                            <li><strong>Storage:</strong> S3/ADLS + Delta/Iceberg</li>
+                            <li><strong>Compute:</strong> Spark + SQL engines</li>
+                            <li><strong>Orchestration:</strong> Airflow/ADF</li>
+                            <li><strong>Governance:</strong> Unity Catalog/Purview</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-primary">Cost Optimization Guide</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>💰 Low Cost</h5>
+                    <ul class="list-unstyled">
+                        <li>• <strong>Data Lake:</strong> Object storage</li>
+                        <li>• Serverless compute</li>
+                        <li>• Pay-per-query model</li>
+                        <li>• Minimal always-on resources</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>💸 Medium Cost</h5>
+                    <ul class="list-unstyled">
+                        <li>• <strong>Lakehouse:</strong> Managed platforms</li>
+                        <li>• Auto-scaling clusters</li>
+                        <li>• Reserved capacity</li>
+                        <li>• Optimized storage formats</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>💎 High Cost</h5>
+                    <ul class="list-unstyled">
+                        <li>• <strong>Data Warehouse:</strong> Always-on</li>
+                        <li>• <strong>Data Fabric:</strong> Virtualization</li>
+                        <li>• Premium features</li>
+                        <li>• 24/7 availability</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-primary">Success Metrics</h2>
+            <div class="alert alert-warning">
+                <h5>Key Performance Indicators</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Technical Metrics</h6>
+                        <ul class="mb-0">
+                            <li>Query performance (p95 latency)</li>
+                            <li>Data freshness (SLA compliance)</li>
+                            <li>System availability (99.9%+)</li>
+                            <li>Cost per TB processed</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Business Metrics</h6>
+                        <ul class="mb-0">
+                            <li>Time to insight (days → hours)</li>
+                            <li>Self-service adoption rate</li>
+                            <li>Data quality scores</li>
+                            <li>Developer productivity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center mb-4">
+            <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

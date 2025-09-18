@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Formats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .highlight { background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; font-weight: 600; }
+        .nav-header { background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%); color: white; padding: 1rem 0; }
+        .text-cyan { color: #17a2b8; }
+        .badge.bg-cyan { background-color: #b8f5ff; color: #17a2b8; }
+        .format-card { border-left: 4px solid #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>📊 Table Formats</h1>
+                <a href="index.html" class="btn btn-light">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <section class="mb-5">
+            <h2 class="text-cyan">Overview</h2>
+            <p class="lead">Modern <strong>Table Formats</strong> bring ACID transactions, schema evolution, and time travel to data lakes, enabling <span class="highlight">lakehouse architectures</span>.</p>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-cyan">Format Comparison</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card format-card">
+                        <div class="card-body">
+                            <h5 class="card-title text-cyan">Delta Lake</h5>
+                            <p><strong>Origin:</strong> Databricks (2019)</p>
+                            <p><strong>Storage:</strong> Parquet + transaction log</p>
+                            <p><strong>Strengths:</strong> Mature ecosystem, streaming</p>
+                            <p><strong>Best For:</strong> Spark-heavy workloads</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card format-card">
+                        <div class="card-body">
+                            <h5 class="card-title text-cyan">Apache Iceberg</h5>
+                            <p><strong>Origin:</strong> Netflix → Apache (2018)</p>
+                            <p><strong>Storage:</strong> Any format + metadata tree</p>
+                            <p><strong>Strengths:</strong> Engine agnostic, hidden partitioning</p>
+                            <p><strong>Best For:</strong> Multi-engine environments</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card format-card">
+                        <div class="card-body">
+                            <h5 class="card-title text-cyan">Apache Hudi</h5>
+                            <p><strong>Origin:</strong> Uber → Apache (2016)</p>
+                            <p><strong>Storage:</strong> Base + log files</p>
+                            <p><strong>Strengths:</strong> Incremental processing, CDC</p>
+                            <p><strong>Best For:</strong> Real-time updates</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-cyan">Key Capabilities</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Delta Lake</th>
+                            <th>Apache Iceberg</th>
+                            <th>Apache Hudi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ACID Transactions</strong></td>
+                            <td>✅ Full ACID</td>
+                            <td>✅ Full ACID</td>
+                            <td>✅ Full ACID</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time Travel</strong></td>
+                            <td>✅ Version & timestamp</td>
+                            <td>✅ Snapshot-based</td>
+                            <td>✅ Point-in-time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schema Evolution</strong></td>
+                            <td>✅ Add/rename columns</td>
+                            <td>✅ Full evolution</td>
+                            <td>✅ Schema registry</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hidden Partitioning</strong></td>
+                            <td>❌ Manual partitioning</td>
+                            <td>✅ Automatic</td>
+                            <td>✅ Timeline-based</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Streaming Support</strong></td>
+                            <td>✅ Native streaming</td>
+                            <td>✅ Via Flink/Spark</td>
+                            <td>✅ Real-time ingestion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Engine Support</strong></td>
+                            <td>Spark, Presto, Athena</td>
+                            <td>Spark, Flink, Trino, Athena</td>
+                            <td>Spark, Presto, Hive</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-cyan">Architecture Patterns</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Common Patterns</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><span class="badge bg-cyan">Medallion Architecture</span> Bronze→Silver→Gold</li>
+                        <li class="mb-2"><span class="badge bg-cyan">Compaction Jobs</span> Small file optimization</li>
+                        <li class="mb-2"><span class="badge bg-cyan">Vacuum Operations</span> Old version cleanup</li>
+                        <li class="mb-2"><span class="badge bg-cyan">Z-Ordering</span> Data clustering</li>
+                        <li class="mb-2"><span class="badge bg-cyan">Liquid Clustering</span> Auto-optimization</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Use Case Fit</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><strong>Delta Lake:</strong> Databricks ecosystem, streaming</li>
+                        <li class="mb-2"><strong>Iceberg:</strong> Multi-cloud, engine flexibility</li>
+                        <li class="mb-2"><strong>Hudi:</strong> CDC, incremental processing</li>
+                        <li class="mb-2"><strong>All Formats:</strong> Replace Hive tables</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-cyan">Implementation Considerations</h2>
+            <div class="alert alert-warning">
+                <h5>Key Decisions</h5>
+                <ul class="mb-0">
+                    <li><strong>File Size:</strong> Target 128MB-1GB per file</li>
+                    <li><strong>Partitioning:</strong> Balance query performance vs small files</li>
+                    <li><strong>Compaction:</strong> Schedule during low-usage windows</li>
+                    <li><strong>Retention:</strong> Configure vacuum/expire policies</li>
+                    <li><strong>Clustering:</strong> Choose columns for Z-order/liquid clustering</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-cyan">Real-World Examples</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Netflix:</strong> Iceberg for petabyte-scale analytics</li>
+                <li class="list-group-item"><strong>Uber:</strong> Hudi for real-time ride data processing</li>
+                <li class="list-group-item"><strong>Databricks:</strong> Delta Lake for unified analytics platform</li>
+                <li class="list-group-item"><strong>Apple:</strong> Iceberg for multi-engine data processing</li>
+            </ul>
+        </section>
+
+        <div class="text-center mb-4">
+            <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

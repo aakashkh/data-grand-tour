@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Comparison</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-header { background: linear-gradient(135deg, #6f42c1 0%, #8b5cf6 100%); color: white; padding: 1rem 0; }
+        .text-purple { color: #6f42c1; }
+        .comparison-table { font-size: 0.9rem; }
+        .comparison-table th { background-color: #f8f9fa; font-weight: 600; }
+        .score-high { background-color: #d4edda; color: #155724; }
+        .score-medium { background-color: #fff3cd; color: #856404; }
+        .score-low { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>⚖️ Architecture Comparison</h1>
+                <a href="index.html" class="btn btn-light">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <section class="mb-5">
+            <h2 class="text-purple">Key Differentiators</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Architecture</th>
+                            <th>Data Storage</th>
+                            <th>Schema Approach</th>
+                            <th>Governance Model</th>
+                            <th>Primary Use Case</th>
+                            <th>Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data Lake</strong></td>
+                            <td>Object Store (S3, ADLS)</td>
+                            <td>Schema-on-Read</td>
+                            <td>Centralized Catalog</td>
+                            <td>Raw Data Archive & ML</td>
+                            <td class="score-low">Low</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Warehouse</strong></td>
+                            <td>Relational/Columnar</td>
+                            <td>Schema-on-Write</td>
+                            <td>Centralized DBA</td>
+                            <td>BI & Reporting</td>
+                            <td class="score-medium">Medium</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Lakehouse</strong></td>
+                            <td>Object + Table Formats</td>
+                            <td>Schema Evolution</td>
+                            <td>Unified Catalog</td>
+                            <td>Unified Analytics</td>
+                            <td class="score-medium">Medium</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Fabric</strong></td>
+                            <td>Virtualized Views</td>
+                            <td>Runtime Schema</td>
+                            <td>Policy-Driven</td>
+                            <td>Real-time Integration</td>
+                            <td class="score-high">High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Mesh</strong></td>
+                            <td>Domain-Distributed</td>
+                            <td>Contract-Based</td>
+                            <td>Federated</td>
+                            <td>Domain Autonomy</td>
+                            <td class="score-high">Very High</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-purple">Performance & Cost Analysis</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Architecture</th>
+                            <th>Query Performance</th>
+                            <th>Storage Cost</th>
+                            <th>Compute Cost</th>
+                            <th>Time to Value</th>
+                            <th>Scalability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data Lake</strong></td>
+                            <td class="score-medium">Variable</td>
+                            <td class="score-high">Very Low</td>
+                            <td class="score-medium">Pay-per-use</td>
+                            <td class="score-high">Fast</td>
+                            <td class="score-high">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Warehouse</strong></td>
+                            <td class="score-high">Optimized</td>
+                            <td class="score-low">High</td>
+                            <td class="score-low">Always-on</td>
+                            <td class="score-low">Slow</td>
+                            <td class="score-medium">Vertical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Lakehouse</strong></td>
+                            <td class="score-high">Good</td>
+                            <td class="score-high">Low</td>
+                            <td class="score-medium">Elastic</td>
+                            <td class="score-medium">Medium</td>
+                            <td class="score-high">Horizontal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Fabric</strong></td>
+                            <td class="score-medium">Latency</td>
+                            <td class="score-high">No Duplication</td>
+                            <td class="score-low">Virtualization</td>
+                            <td class="score-high">Instant</td>
+                            <td class="score-medium">Federated</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Mesh</strong></td>
+                            <td class="score-medium">Domain-specific</td>
+                            <td class="score-medium">Distributed</td>
+                            <td class="score-medium">Per Domain</td>
+                            <td class="score-low">Long-term</td>
+                            <td class="score-high">Infinite</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-purple">Organizational Fit</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Team Size & Maturity</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><strong>Small Teams (5-20):</strong> Data Lake → Lakehouse</li>
+                        <li class="mb-2"><strong>Medium Teams (20-100):</strong> Modern Data Warehouse</li>
+                        <li class="mb-2"><strong>Large Teams (100+):</strong> Data Mesh or Fabric</li>
+                        <li class="mb-2"><strong>High Maturity:</strong> Lakehouse, Mesh</li>
+                        <li class="mb-2"><strong>Low Maturity:</strong> Data Lake, Warehouse</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Business Requirements</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><strong>Real-time Decisions:</strong> Data Fabric</li>
+                        <li class="mb-2"><strong>Regulatory Compliance:</strong> Data Warehouse</li>
+                        <li class="mb-2"><strong>ML/AI Innovation:</strong> Data Lake/Lakehouse</li>
+                        <li class="mb-2"><strong>Domain Autonomy:</strong> Data Mesh</li>
+                        <li class="mb-2"><strong>Cost Optimization:</strong> Data Lake</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-purple">Evolution Path</h2>
+            <div class="alert alert-info">
+                <h5>Typical Migration Journey</h5>
+                <p><strong>Phase 1:</strong> Data Warehouse → Data Lake (cost reduction)<br>
+                <strong>Phase 2:</strong> Data Lake → Lakehouse (ACID + performance)<br>
+                <strong>Phase 3:</strong> Lakehouse → Mesh (organizational scale)<br>
+                <strong>Overlay:</strong> Data Fabric for real-time integration</p>
+            </div>
+        </section>
+
+        <div class="text-center mb-4">
+            <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
