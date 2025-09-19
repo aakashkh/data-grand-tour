@@ -1,0 +1,1944 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Data’s Grand Tour: Navigating the Modern Data Architecture Maze</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preconnect Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Reveal.js core styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/white.css" id="theme" />
+  
+  <!-- Bootstrap CSS for responsive layout and styling -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoP2mFlbGHTxwp4PvH8XKpvYl5+Y0qhSVdI5ZmQZ9Ed+giZ"
+    crossorigin="anonymous"
+  />
+  
+  <style>
+    /* Global Font */
+    body, h1, h2, h3, h4, h5, h6, p, ul, ol, table, blockquote {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+    }
+
+    /* Slide Headings */
+    .slide-title {
+      font-weight: 600;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    h4 {
+      font-weight: 500;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Architecture Color Coding */
+    .architecture-teal   { color: #008080; }
+    .architecture-blue   { color: #005a9e; }
+    .architecture-green  { color: #198754; }
+    .architecture-orange { color: #fd7e14; }
+    .architecture-purple { color: #6f42c1; }
+    .architecture-red    { color: #dc3545; }
+
+    /* Table Styling */
+    .table thead {
+      background-color: #f1f5f9 !important;
+    }
+    .table thead th {
+      font-size: 3rem !important;
+      font-weight: 800 !important;
+      padding: 1rem !important;
+      color: #0d6efd !important;
+      border-bottom: 2px solid #0b5ed7 !important;
+    }
+    .table tbody td {
+      padding: 0.75rem !important;
+      vertical-align: middle;
+      font-size: 2rem !important;
+      font-weight: 300 !important;
+    }
+    .table-bordered th,
+    .table-bordered td {
+      border: 1px solid #dee2e6;
+    }
+    table {
+      border-collapse: separate;
+      border-spacing: 0 0.5rem;
+    }
+    table tr {
+      background-color: #ffffff;
+    }
+    table {
+      font-size: 0.95rem;
+    }
+
+    /* Lists */
+    .list-unstyled li,
+    .list-group-item {
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+
+    /* Badge Text */
+    .badge {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    /* Highlighting and Notes */
+    .highlight {
+      background-color: #fff3cd;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+    .note {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    .placeholder {
+      font-style: italic;
+      color: #6c757d;
+    }
+
+    /* Fix for Reveal.js positioning */
+    .reveal .slides section .position-absolute {
+      position: fixed !important;
+      z-index: 1000;
+    }
+    .reveal .slides section .top-0 {
+      top: -4em !important;
+    }
+    .reveal .slides section .start-0 {
+      left: 1.2em !important;
+    }
+    .reveal .slides section .end-0 {
+      right: 1.2em !important;
+    }
+
+    /* Section Highlight */
+    .section-highlight {
+      border-left: 0.5rem solid #0d6efd;
+      padding-left: 1rem;
+    }
+
+    /* Force Bootstrap classes to work over Reveal.js */
+    .badge {
+      display: inline-block !important;
+      padding: 0.35em 0.65em !important;
+      font-size: 0.75em !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      vertical-align: baseline !important;
+      border-radius: 0.375rem !important;
+    }
+    .bg-primary { background-color: #0d6efd !important; color: white !important; }
+    .bg-secondary { background-color: #6c757d !important; color: white !important; }
+    .bg-success { background-color: #198754 !important; color: white !important; }
+    .bg-danger { background-color: #dc3545 !important; color: white !important; }
+    .bg-warning { background-color: #ffc107 !important; color: black !important; }
+    .bg-info { background-color: #0dcaf0 !important; color: black !important; }
+    .bg-light { background-color: #f8f9fa !important; color: black !important; }
+    .text-dark { color: #212529 !important; }
+    .text-white { color: white !important; }
+    
+    /* Responsive embed */
+    .embed-responsive {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+    }
+    .embed-responsive iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides container-fluid">
+      
+      <!-- Slide 1 -->
+      <section class="text-center">
+        <h1 class="slide-title">Data’s Grand Tour: <br> Navigating the Modern Data Architecture Maze</h1>
+        <h4 class="text-muted">Lake, Data Warehouse, Mesh, Lakehouse, Fabric &amp; Table Formats</h4>
+        <p><strong>Duration:</strong> 45 minutes &nbsp;|&nbsp; <strong>Date:</strong> 19th Sep 2025</p>
+        <p><strong>Speaker:</strong> Aakash Khandelwal & Jyotika Agarwal &nbsp;&nbsp; </p>
+        <div class="placeholder">Flo 2025</div>
+      </section>
+
+      <!-- Slide 2 -->
+      <section>
+        <div class="row">
+          <div class="col-lg-8">
+            <h2>The Data Challenge We Face</h2>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">90% of the world’s data created in the last 2 years</li>
+              <li class="list-group-item">Organizations manage 10× more data types than 5 years ago</li>
+              <li class="list-group-item">Traditional architectures buckle under modern requirements</li>
+            </ul>
+              <p class="note text-center">
+    <medium>https://rivery.io/blog/big-data-statistics-how-much-data-is-there-in-the-world/</medium><br>
+    
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4 -->
+      <section>
+        <h2 class="slide-title"> <span class="text-primary">Today`s Journey</span></h2>
+        <ol class="list-group list-group-numbered">
+          <li class="list-group-item"><i class="bi bi-chat-dots-fill"></i> Data Jargon 101</li>
+          <li class="list-group-item"><i class="bi bi-diagram-3-fill"></i> 6 Core Architectures</li>
+          <li class="list-group-item"><i class="bi bi-table"></i> Table Formats Revolution</li>
+          <li class="list-group-item"><i class="bi bi-bar-chart-fill"></i> Comparative Analysis</li>
+          <li class="list-group-item"><i class="bi bi-compass"></i> Decision Framework</li>
+        </ol>
+      </section>
+
+      <!-- Data Jargon 101 -->
+      <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Jargon 101</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        
+        <h2 class="slide-title"><span class="text-primary">Schema &amp; Storage Models</span></h2>
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="list-unstyled">
+              <li><i class="bi bi-eye-fill text-info"></i> <strong>Schema-on-Read</strong>: Structure applied at <span class="highlight">query time</span> for flexible ingestion.</li>
+              <li><i class="bi bi-pencil-fill text-warning"></i> <strong>Schema-on-Write</strong>: Structure enforced at <span class="highlight">load time</span> for consistent BI performance.</li>
+              <li><i class="bi bi-view-list text-success"></i> <strong>Row-Oriented Storage</strong>: Records stored row by row for <span class="badge bg-light text-dark">OLTP</span> workloads.</li>
+              <li><i class="bi bi-bar-chart-fill text-primary"></i> <strong>Columnar Storage</strong>: Columns stored together for <span class="badge bg-light text-dark">OLAP</span> queries, better compression.</li>
+              <li><i class="bi bi-memory text-danger"></i> <strong>In-Memory Storage</strong>: Data in RAM for <span class="highlight">ultra-low latency</span> analytics.</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Footer 
+        <div style="position: relative; bottom: 20%; left: 50%; transform: translateX(-50%); z-index: -100;">
+          <div class="placeholder">Data's Grand Tour: Navigating the Modern Data Architecture Maze</div>
+        </div>-->
+      </section>
+
+       <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Jargon 101</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-primary">Processing Patterns</span></h2>
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="list-unstyled">
+              <li><i class="bi bi-arrow-right-circle-fill text-info"></i> <strong>ETL (Extract, Transform, Load)</strong>: Batch process — extract, cleanse, load into DWH.</li>
+              <li><i class="bi bi-arrow-down-circle-fill text-warning"></i> <strong>ELT (Extract, Load, Transform)</strong>: Load raw data then transform <span class="highlight">in-place</span> (lakehouse).</li>
+              <li><i class="bi bi-clock-fill text-success"></i> <strong>Batch vs Streaming</strong>: Scheduled chunks vs real-time events.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+        <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Jargon 101</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-primary">Access &amp; Governance</span></h2>
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="list-unstyled">
+              <li><i class="bi bi-database-fill text-success"></i> <strong>OLTP</strong>: Online Transaction Processing for <span class="highlight">high-volume writes</span>.</li>
+              <li><i class="bi bi-graph-up-arrow text-info"></i> <strong>OLAP</strong>: Online Analytical Processing for <span class="highlight">complex read queries</span>.</li>
+              <li><i class="bi bi-cloud-fill text-primary"></i> <strong>Data Virtualization</strong>: Unified, virtual views <span class="highlight">without copying</span> data.</li>
+              <li><i class="bi bi-bookmarks-fill text-warning"></i> <strong>Metadata &amp; Data Catalog</strong>: Searchable repository of <span class="highlight">schemas, lineage, quality</span>.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+        <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Jargon 101</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-primary">Transaction &amp; Consistency</span></h2>
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="list-unstyled">
+              <li><i class="bi bi-lock-fill text-success"></i> <strong>ACID Transactions</strong>: <span class="highlight">Atomicity, Consistency, Isolation, Durability</span> for reliable updates.</li>
+              <li><i class="bi bi-arrow-repeat text-info"></i> <strong>Idempotent Processing</strong>: Repeatable transforms yield <span class="highlight">same result</span> for exactly-once jobs.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+     <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Jargon 101</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-primary">Advanced Concepts</span></h2>
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="list-unstyled">
+              <li><i class="bi bi-diagram-2-fill text-info"></i> <strong>Data Lineage</strong>: Full lifecycle tracking from <span class="highlight">origin to report</span> for auditability.</li>
+              <li><i class="bi bi-file-earmark-text-fill text-warning"></i> <strong>Data Contract</strong>: Schema &amp; SLAdefinitions between producers &amp; consumers.</li>
+              <li><i class="bi bi-layers-fill text-primary"></i> <strong>Medallion Architecture</strong>: <span class="highlight">Bronze → Silver → >Gold</span></li>
+              <li><i class="bi bi-boxes text-success"></i> <strong>Polyglot Persistence</strong>: Multiple storage technologies for <span class="highlight">workload-fit</span> solutions.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+        <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Jargon 101</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-primary">Jargons Summary</span></h2>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="table-primary">
+              <tr><th><i class="bi bi-bookmark-fill"></i> Term</th><th><i class="bi bi-info-circle-fill"></i> Definition</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Schema-on-Read/Write</strong></td>
+                <td>When structure is applied - <span class="badge bg-info">read</span> vs <span class="badge bg-warning">write</span></td>
+              </tr>
+              <tr>
+                <td><strong>Columnar vs Row</strong></td>
+                <td>Storage orientation - <span class="badge bg-primary">columns</span> vs <span class="badge bg-secondary">rows</span></td>
+              </tr>
+              <tr>
+                <td><strong>ETL vs ELT</strong></td>
+                <td>Order of transform vs load - <span class="badge bg-success">before</span> vs <span class="badge bg-warning">after</span></td>
+              </tr>
+              <tr>
+                <td><strong>Streaming vs Batch</strong></td>
+                <td><span class="badge bg-danger">Real-time</span> vs <span class="badge bg-secondary">scheduled</span></td>
+              </tr>
+              <tr>
+                <td><strong>Data Virtualization</strong></td>
+                <td>Virtual view <span class="highlight">without movement</span></td>
+              </tr>
+              <tr>
+                <td><strong>ACID Transactions</strong></td>
+                <td><span class="badge bg-success">Reliable</span> updates with guarantees</td>
+              </tr>
+              <tr>
+                <td><strong>Data Lineage</strong></td>
+                <td>Track data path from <span class="highlight">source to destination</span></td>
+              </tr>
+              <tr>
+                <td><strong>Medallion Architecture</strong></td>
+                <td>Layered <span class="badge bg-secondary">Bronze</span>/<span class="badge bg-light text-dark">Silver</span>/<span class="badge bg-warning text-dark">Gold</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <style>
+        .text-primary { color: #0d6efd; }
+        .highlight { background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; }
+        .table-hover tbody tr:hover { background-color: #f8f9fa; }
+        .list-unstyled li { margin-bottom: 8px; }
+        .badge { font-size: 0.8em; }
+        .badge.bg-teal { background-color: #20c997 !important; color: white !important; }
+      </style>
+
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lake</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"> <span class="text-teal">Data Lake - Overview</span> </h2>
+  <div class="row">
+    <div class="col-md-8">
+      <p>
+        A <strong>Data Lake</strong> ingests raw data of any format into a low-cost object store with 
+        <span class="highlight">schema-on-read</span> flexibility. It serves as the central repository for batch and streaming data.
+      </p>
+    </div>
+    <div class="col-md-4">
+      <img src="https://www.dqlabs.ai/wp-content/uploads/2024/06/Data-Security-Governance-and-Moniitoring-1-1920x1079.webp" 
+           class="img-fluid zoom-img" 
+           style="max-width: 200px; cursor: pointer;" 
+           onclick="openImageModal(this.src)" 
+           alt="Data Lake Architecture">
+           <p class="note" style="font-size: 0.7rem; margin-top: 5px;">Source: DQlabs</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide: Data Lake Organization -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lake</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-teal">Data Organization</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-cloud-arrow-up-fill"></i> <strong>Landing Zone:</strong> Batch (ADF, Glue) &amp; Streaming (Kafka, Event Hubs)</li>
+    <li><i class="bi bi-file-earmark-code-fill"></i> <strong>Raw Zone (Bronze):</strong> Immutable files (Parquet, ORC, JSON, CSV, multimedia)</li>
+    <li><i class="bi bi-bricks"></i> <strong>Curated Zone (Silver):</strong> Cleaned, conformed views/tables</li>
+    <li><i class="bi bi-award-fill"></i> <strong>Business Zone (Gold):</strong> Aggregated, business-ready datasets</li>
+    <li><i class="bi bi-bookmarks-fill"></i> <strong>Data Catalog:</strong> Hive Metastore, Glue Catalog, Azure Purview</li>
+  </ul>
+</section>
+
+<!-- Slide: Key Components & Patterns -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lake</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-teal">Key Components</span></h2>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li><i class="bi bi-hdd-fill"></i> <strong>Object Storage:</strong> S3, ADLS Gen2</li>
+        <li><i class="bi bi-cpu-fill"></i> <strong>Compute Engines:</strong> Spark, Presto/Trino, EMR</li>
+        <li><i class="bi bi-search"></i> <strong>Metadata Management:</strong> Automated crawling &amp; profiling</li>
+        <li><i class="bi bi-shield-lock-fill"></i> <strong>Security &amp; Governance:</strong> ACLs, encryption, IAM</li>
+        <li><i class="bi bi-table"></i> <strong>Table Formats:</strong> Delta Lake, Iceberg, Hudi</li>
+      </ul>
+    </div>
+    <br>
+
+  </div>
+</section>
+
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lake</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-teal">Patterns</span></h2>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li><span class="badge bg-teal">Bronze→Silver→Gold</span> medallion layers</li>
+        <li><span class="badge bg-teal">Schema-on-Read</span> flexibility</li>
+        <li><span class="badge bg-teal">Batch &amp; Streaming</span> integration</li>
+        <li><span class="badge bg-teal">Incremental Loads</span> via partitions</li>
+        <li><span class="badge bg-teal">Sandboxing</span> for prototyping</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- 
+Slide: Use Cases
+   <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lake</div>
+        </div>
+        
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-teal">Use Cases</span></h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><i class="bi bi-graph-up-arrow"></i> <strong>Log Analytics:</strong> Fraud detection (clickstreams → ADLS Gen2)</li>
+    <li class="list-group-item"><i class="bi bi-gear-fill"></i> <strong>IoT Telemetry:</strong> Predictive maintenance on sensor data</li>
+    <li class="list-group-item"><i class="bi bi-beaker"></i> <strong>Data Science Sandboxes:</strong> Exploratory ML on raw datasets</li>
+  </ul>
+</section>
+-->
+
+<!-- Slide: Practical Example
+<section>
+  <h2 class="slide-title"><span class="text-teal">Practical Example:</span> Retail Lake</h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-cart-fill"></i> <strong>Ingestion:</strong> POS, clickstream, inventory → Delta Lake on S3</li>
+    <li><i class="bi bi-lightning-fill"></i> <strong>Sandboxing:</strong> Prototype churn models on raw data</li>
+  </ul>
+</section> -->
+
+<!-- Slide: Pros & Cons -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lake</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-teal">Pros &amp; Cons</span></h2>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>✅ <span class="highlight">Ultra-low cost</span> storage &amp; massive scale</li>
+        <li>✅ Rapid ingestion &amp; experimentation</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>⚠️ Requires <span class="highlight">governance</span> &amp; catalog</li>
+        <li>⚠️ Query performance needs <span class="highlight">optimization</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide: Day-to-Day Operations -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lake</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-teal">Day-to-Day Operations</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-hdd-network"></i> <strong>Staging Offload:</strong> ETL staging on object storage</li>
+    <li><i class="bi bi-laptop-fill"></i> <strong>Sandbox Provisioning:</strong> Quick Spark/Presto clusters</li>
+    <li><i class="bi bi-calendar2-check-fill"></i> <strong>Batch Window:</strong> Scheduled off-hours loads</li>
+    <li><i class="bi bi-archive-fill"></i> <strong>Raw Data Retention:</strong> Unlimited storage</li>
+    <li><i class="bi bi-arrow-repeat"></i> <strong>Incremental Loads:</strong> Partitioned folders</li>
+    <li><i class="bi bi-droplet-half"></i> <strong>Swamp Prevention:</strong> Metadata tagging &amp; retention</li>
+  </ul>
+  <br><br><br>
+  <p class="note text-center">
+    <medium>Content adapted from James Serra’s “Deciphering Data Architectures,” 2025.</medium>
+  </p>
+</section>
+
+
+
+<style>
+  .text-teal  { color: #008080; }
+  .badge.bg-teal { background-color: #97eeee; color: #008080; }
+  .highlight { background-color: #ffff99; }
+</style>
+
+
+<!-- Modern Data Warehouse Slides -->
+
+<!-- Slide: Modern Data Warehouse Overview -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - MDW</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-blue">Modern Data Warehouse - Overview</span></h2>
+  <p>
+    A <strong>Modern Data Warehouse</strong> combines data lake and relational store capabilities with 
+    <span class="highlight">schema-on-write</span> governance. It delivers optimized BI and reporting performance.
+  </p>
+   <div class="col-md-4">
+      <img src="https://learn.microsoft.com/en-us/azure/architecture/databases/architecture/_images/architecture-diagram-demonstrating-dataops-for-the-modern-data-warehouse.svg" 
+           class="img-fluid zoom-img" 
+           style="max-width: 200px; cursor: pointer;" 
+           onclick="openImageModal(this.src)" 
+           alt="Data Lake Architecture">
+      <p class="note" style="font-size: 0.7rem; margin-top: 5px;">Source: Microsoft Learn</p>
+    </div>
+</section>
+
+<!-- Slide: MDW Organization -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - MDW</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-blue">Data Organization</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-box-arrow-in-right"></i> <strong>Staging Layer:</strong> ETL via SSIS, Informatica</li>
+    <li><i class="bi bi-hdd-stack-fill"></i> <strong>Raw Zone:</strong> Archive in data lake</li>
+    <li><i class="bi bi-grid-3x2-gap-fill"></i> <strong>Curated Zone:</strong> Star/snowflake schemas</li>
+    <li><i class="bi bi-tags-fill"></i> <strong>Data Marts:</strong> Departmental subsets</li>
+    <li><i class="bi bi-bar-chart-fill"></i> <strong>Semantic Layer:</strong> Business-friendly BI models</li>
+  </ul>
+</section>
+
+<!-- Slide: Key Components & Patterns -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - MDW</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-blue">Key Components</span> </h2>
+  <div class="row">
+    <div class="col-md-6">
+      
+      <ul class="list-unstyled">
+        <li><i class="bi bi-cloud-arrow-down-fill"></i> <strong>ETL Pipelines:</strong> Azure Data Factory, Airflow</li>
+        <li><i class="bi bi-database-fill"></i> <strong>SQL Pools:</strong> Azure Synapse, Snowflake, Redshift</li>
+        <li><i class="bi bi-gear-fill"></i> <strong>Dimensional Modeling:</strong> Star/snowflake schemas</li>
+        <li><i class="bi bi-shield-lock-fill"></i> <strong>Security:</strong> Row-/column-level access controls</li>
+        <li><i class="bi bi-graph-up-arrow"></i> <strong>BI Integration:</strong> Power BI, Tableau</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - MDW</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-blue">Patterns</span></h2>
+  <div class="row">
+
+    <div class="col-md-6">
+    
+      <ul class="list-unstyled">
+        <li><span class="badge bg-blue">ETL Orchestration</span> scheduled workflows</li>
+        <li><span class="badge bg-blue">Delta Loads</span> incremental data refresh</li>
+        <li><span class="badge bg-blue">Data Partitioning</span> by date, region</li>
+        <li><span class="badge bg-blue">Slowly Changing Dimensions</span> history tracking</li>
+        <li><span class="badge bg-blue">Semantic Views</span> abstract complexity</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 
+Slide: Use Cases
+   <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - MDW</div>
+        </div>
+        
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-blue">Use Cases</span></h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><i class="bi bi-currency-dollar"></i> <strong>Financial Consolidation:</strong> Multi-country ERP → GAAP reporting</li>
+    <li class="list-group-item"><i class="bi bi-truck-flatbed"></i> <strong>Supply-Chain KPIs:</strong> POS, inventory, shipping → executive dashboards</li>
+    <li class="list-group-item"><i class="bi bi-people-fill"></i> <strong>HR Analytics:</strong> Employee data integration for workforce planning</li>
+  </ul>
+</section>
+-->
+
+<!-- Slide: Practical Example 
+<section>
+  <h2 class="slide-title"><span class="text-blue">Practical Example:</span> Contoso Finance</h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-building"></i> <strong>Flow:</strong> Oracle ERP → SSIS → ADLS CSV → Synapse SQL → Power BI</li>
+    <li><i class="bi bi-clock-history"></i> <strong>Outcome:</strong> Close cycle 72h → 4h; unified reporting</li>
+  </ul>
+  <div class="placeholder">[Insert finance consolidation timeline]</div>
+</section>-->
+
+<!-- Slide: Pros & Cons -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - MDW</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-blue">Pros &amp; Cons</span></h2>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>✅ <span class="highlight">Predictable performance</span> for BI</li>
+        <li>✅ Strong governance &amp; compliance support</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>⚠️ Upfront schema design slows onboarding</li>
+        <li>⚠️ Scaling costs grow with data volume</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide: Day-to-Day Operations -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - MDW</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-blue">Day-to-Day Operations</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-clock-fill"></i> <strong>Maintenance Windows:</strong> Off-peak ETL runs</li>
+    <li><i class="bi bi-speedometer2"></i> <strong>Performance Tuning:</strong> Indexes &amp; partitions</li>
+    <li><i class="bi bi-diagram-3-fill"></i> <strong>Workload Management:</strong> Reporting vs loading queues</li>
+    <li><i class="bi bi-journal-text"></i> <strong>Lineage Tracking:</strong> End-to-end audit trails</li>
+    <li><i class="bi bi-person-check-fill"></i> <strong>Self-Service BI:</strong> Semantic layers for users</li>
+    <li><i class="bi bi-lock-fill"></i> <strong>Access Control:</strong> Single security boundary</li>
+  </ul>
+  <p class="note text-center">
+    <medium>Content adapted from James Serra’s “Deciphering Data Architectures,” 2025.</medium>
+  </p>
+</section>
+
+<style>
+  .text-blue { color: #005a9e; }
+  .badge.bg-blue { background-color: #cfe2ff; color: #005a9e; }
+  .highlight { background-color: #ffff99; }
+</style>
+
+
+<!-- Data Fabric Slides -->
+
+<!-- Slide: Data Fabric Overview -->
+
+<!-- Slide: Day-to-Day Operations -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-green">Data Fabric - Overview</span></h2>
+  <p>
+    A <strong>Data Fabric</strong> provides real-time, virtualized access to distributed data sources without physical movement. It ensures governance via metadata-driven automation.
+  </p>
+   <div class="col-md-4">
+      <img src="  https://emt.gartnerweb.com/ngw/globalassets/en/data-analytics/images/infographics/data-fabric-is-an-integrated-layer-of-connected-data.png" 
+           class="img-fluid zoom-img" 
+           style="max-width: 200px; cursor: pointer;" 
+           onclick="openImageModal(this.src)" 
+           alt="Data Lake Architecture">
+      <p class="note" style="font-size: 0.7rem; margin-top: 5px;">Source: Gartner</p>
+</section>
+
+<!-- Slide: Data Fabric Organization -->
+<!-- Slide: Day-to-Day Operations -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-green">Data Organization</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-hdd-network-fill"></i> <strong>Virtual Views:</strong> Logical tables over SQL, NoSQL, file stores</li>
+    <li><i class="bi bi-journal-bookmark-fill"></i> <strong>Metadata Layer:</strong> Cataloging, lineage, data profiles</li>
+    <li><i class="bi bi-grid-3x2-gap-fill"></i> <strong>API Gateway:</strong> Standardized REST/GraphQL endpoints</li>
+    <li><i class="bi bi-lightning-charge-fill"></i> <strong>Streaming Bus:</strong> Real-time connectors (Kafka, JMS)</li>
+    <li><i class="bi bi-shield-lock-fill"></i> <strong>Policy Engine:</strong> Central security &amp; masking rules</li>
+  </ul>
+</section>
+
+<!-- Slide: Key Components & Patterns -->
+<!-- Slide: Day-to-Day Operations -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-green">Key Components</span></h2>
+  <div class="row">
+    <div class="col-md-6">
+      
+      <ul class="list-unstyled">
+        <li><i class="bi bi-diagram-3-fill"></i> <strong>Virtualization Engines:</strong> Denodo, TIBCO, IBM Cloud Pak</li>
+        <li><i class="bi bi-bookmarks-fill"></i> <strong>Metadata Catalogs:</strong> Informatica EDC, Collibra</li>
+        <li><i class="bi bi-plug-fill"></i> <strong>API Layer:</strong> Data product interfaces</li>
+        <li><i class="bi bi-shield-lock-fill"></i> <strong>Governance:</strong> Central policy enforcement</li>
+        <li><i class="bi bi-cloud-fill"></i> <strong>Streaming Connectors:</strong> Kafka, Kinesis, Event Hubs</li>
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+  <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-green">Patterns</span></h2>
+  <div class="row">
+  
+    <div class="col-md-6">
+ 
+      <ul class="list-unstyled">
+        <li><span class="badge bg-green">Virtualization</span> real-time integration</li>
+        <li><span class="badge bg-green">Metadata-Driven</span> automation</li>
+        <li><span class="badge bg-green">API-First</span> data products</li>
+        <li><span class="badge bg-green">Federated Policy</span> enforcement</li>
+        <li><span class="badge bg-green">Cache Acceleration</span> for performance</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- 
+Slide: Use Cases
+<section>
+  <h2 class="slide-title"><span class="text-green">Use Cases</span></h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><i class="bi bi-person-lines-fill"></i> <strong>Patient Records:</strong> Federated EMR, lab, imaging (FHIR API)</li>
+    <li class="list-group-item"><i class="bi bi-credit-card-fill"></i> <strong>Fraud Detection:</strong> Real-time virtual joins across payments</li>
+    <li class="list-group-item"><i class="bi bi-bar-chart-fill"></i> <strong>Customer 360:</strong> Unified customer view from CRM, web, social</li>
+  </ul>
+</section>
+-->
+
+<!-- Slide: Practical Example 
+<section>
+  <h2 class="slide-title"><span class="text-green">Practical Example:</span> Healthcare Federation</h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-hospital-fill"></i> <strong>Flow:</strong> Denodo virtualizes EMR (SQL Server), lab (Oracle), imaging (DICOM) → FHIR API</li>
+    <li><i class="bi bi-person-check-fill"></i> <strong>Outcome:</strong> Single patient portal; improved care coordination</li>
+  </ul>
+  <div class="placeholder">[Insert healthcare federation diagram]</div>
+</section>-->
+
+<!-- Slide: Pros & Cons -->
+<!-- Slide: Day-to-Day Operations -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-green">Pros &amp; Cons</span></h2>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>✅ <span class="highlight">Instant access</span> without data copies</li>
+        <li>✅ Centralized governance &amp; security policies</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>⚠️ Query latency due to virtualization layer</li>
+        <li>⚠️ Complexity in policy management</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide: Day-to-Day Operations -->
+<!-- Slide: Day-to-Day Operations -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-green">Day-to-Day Operations</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-arrow-repeat"></i> <strong>Real-Time Queries:</strong> On-demand federation</li>
+    <li><i class="bi bi-search"></i> <strong>Metadata Harvesting:</strong> Auto-catalog updates</li>
+    <li><i class="bi bi-shield-lock-fill"></i> <strong>Policy Application:</strong> Runtime masking &amp; access control</li>
+    <li><i class="bi bi-speedometer2"></i> <strong>Cache Management:</strong> Accelerate frequent queries</li>
+    <li><i class="bi bi-pie-chart-fill"></i> <strong>API Monitoring:</strong> Data product usage metrics</li>
+  </ul>
+  <p class="note text-center">
+    <medium>Content adapted from James Serra’s “Deciphering Data Architectures,” 2025.</medium>
+  </p>
+</section>
+
+<style>
+  .text-green { color: #198754; }
+  .badge.bg-green { background-color: #d1e7dd; color: #198754; }
+  .highlight { background-color: #ffff99; }
+</style>
+
+      
+
+
+<!-- Data Lakehouse Slides -->
+
+<!-- Slide: Data Lakehouse Overview -->
+  <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lakehouse</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-orange">Data Lakehouse - Overview</span> </h2>
+  <p>
+    A <strong>Data Lakehouse</strong> unifies data lake flexibility and data warehouse reliability with 
+    <span class="highlight">ACID transactions</span> on open table formats.
+  </p>
+    <img src="https://cdn.prod.website-files.com/6130fa1501794e37c21867cf/639a1028b85940306cc183c8_RpNgiM0MA14S8MQopjIgyJxulSU4vgwQDdNPIrWwi54fFt1fkiwbvhWhcU-TXPTOBE7PRNHhPzH-42HV5RvHXBYhHdjCoN7Mz3tGRyrY6hyibyPEy43h1NYSWphq4sDvroECxMadkvR_m9hnWuklABxxMEUuL0tZ48lfwbz070iZ9Y-c1q4ckimIBSpOTg.png" 
+           class="img-fluid zoom-img" 
+           style="max-width: 200px; cursor: pointer;" 
+           onclick="openImageModal(this.src)" 
+           alt="Data Lake Architecture">
+      <p class="note" style="font-size: 0.7rem; margin-top: 5px;">Source: Databricks</p>
+</section>
+
+<!-- Slide: Lakehouse Organization -->
+  <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lakehouse</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-orange">Data Organization</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-box-seam-fill"></i> <strong>Bronze Layer:</strong> Raw ingests (append-only)</li>
+    <li><i class="bi bi-bricks"></i> <strong>Silver Layer:</strong> Cleansed &amp; conformed tables</li>
+    <li><i class="bi bi-stars"></i> <strong>Gold Layer:</strong> Aggregated, business-ready tables</li>
+    <li><i class="bi bi-bookmarks-fill"></i> <strong>Table Formats:</strong> Delta Lake, Iceberg, Hudi</li>
+    <li><i class="bi bi-bookmarks-fill"></i> <strong>Metadata Catalog:</strong> Hive Metastore or catalog store</li>
+  </ul>
+</section>
+
+<!-- Slide: Key Components & Patterns -->
+  <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lakehouse</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-orange">Key Components</span> </h2>
+  <div class="row">
+    <div class="col-md-6">
+     
+      <ul class="list-unstyled">
+        <li><i class="bi bi-table"></i> <strong>Table Formats:</strong> Delta, Iceberg, Hudi for ACID &amp; time travel</li>
+        <li><i class="bi bi-lightning-charge-fill"></i> <strong>Streaming Engine:</strong> Spark Structured Streaming</li>
+        <li><i class="bi bi-hdd-fill"></i> <strong>Object Storage:</strong> S3, ADLS</li>
+        <li><i class="bi bi-cpu-fill"></i> <strong>Batch Engine:</strong> Spark, Presto, Athena</li>
+        <li><i class="bi bi-search"></i> <strong>Time Travel:</strong> Historical version queries</li>
+      </ul>
+    </div>
+  
+  </div>
+</section>
+
+  <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lakehouse</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"> <span class="text-orange">Patterns</span></h2>
+  <div class="row">
+
+    <div class="col-md-6">
+      
+      <ul class="list-unstyled">
+        <li><span class="badge bg-orange">ACID Transactions</span> reliable updates</li>
+        <li><span class="badge bg-orange">Medallion Layers</span> Bronze→Silver→Gold</li>
+        <li><span class="badge bg-orange">Unified Workloads</span> BI, ML, streaming</li>
+        <li><span class="badge bg-orange">Compaction</span> small-file optimization</li>
+        <li><span class="badge bg-orange">Schema Evolution</span> add/rename columns</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 
+Slide: Use Cases
+<section>
+  <h2 class="slide-title"><span class="text-orange">Use Cases</span></h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><i class="bi bi-gear-fill"></i> <strong>Feature Store:</strong> Real-time ML features at Uber scale</li>
+    <li class="list-group-item"><i class="bi bi-bar-chart-fill"></i> <strong>Unified Analytics:</strong> BI + data science on same data</li>
+    <li class="list-group-item"><i class="bi bi-clock-history"></i> <strong>Time Travel Debugging:</strong> Historical data audits</li>
+  </ul>
+</section>
+-->
+
+<!-- Slide: Practical Example 
+<section>
+  <h2 class="slide-title"><span class="text-orange">Practical Example:</span> Uber ML Platform</h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-file-earmark-code-fill"></i> <strong>Flow:</strong> Logs → Delta Bronze → ETL → Silver features → MLflow + streaming updates</li>
+    <li><i class="bi bi-graph-up-arrow"></i> <strong>Outcome:</strong> 50% faster feature engineering; live surge pricing</li>
+  </ul>
+  <div class="placeholder">[Insert ML feature store pipeline diagram]</div>
+</section>-->
+
+<!-- Slide: Pros & Cons -->
+  <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lakehouse</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-orange">Pros &amp; Cons</span></h2>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>✅ <span class="highlight">Unified platform</span> for BI &amp; ML</li>
+        <li>✅ ACID &amp; time travel on open storage</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>⚠️ Performance vs dedicated warehouse</li>
+        <li>⚠️ Requires expertise in table formats</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide: Day-to-Day Operations -->
+  <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Lakehouse</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-orange">Day-to-Day Operations</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-arrow-repeat"></i> <strong>Acid Operations:</strong> Updates/deletes via SQL</li>
+    <li><i class="bi bi-hdd-stack-fill"></i> <strong>Compaction Jobs:</strong> Background file merging</li>
+    <li><i class="bi bi-search"></i> <strong>Time Travel Queries:</strong> Debug historical data</li>
+    <li><i class="bi bi-sliders2-vertical"></i> <strong>Schema Evolution:</strong> Online adds/renames</li>
+    <li><i class="bi bi-gear-wide-connected"></i> <strong>Hybrid Workloads:</strong> Mix batch, streaming, BI</li>
+  </ul>
+  <p class="note text-center">
+    <medium>Content adapted from James Serra’s “Deciphering Data Architectures,” 2025.</medium>
+  </p>
+</section>
+
+<style>
+  .text-orange { color: #fd7e14; }
+  .badge.bg-orange { background-color: #ffe5d0; color: #fd7e14; }
+  .highlight { background-color: #ffff99; }
+</style>
+
+<!-- Data Mesh Slides -->
+
+<!-- Slide: Data Mesh Overview -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Mesh</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-red">Data Mesh - Overview</span></h2>
+  <p>
+    <strong>Data Mesh</strong> decentralizes data ownership to domain teams, treating 
+    <span class="highlight">data as a product</span> under a federated governance framework.
+  </p>
+      <div class="col-md-4">
+      <img src="https://estuary.dev/static/c37aa416981be173722f8d869bca37bf/03117/01_Data_Mesh_Architecture_What_Is_A_Data_Mesh_799cb3bada.webp" 
+           class="img-fluid zoom-img" 
+           style="max-width: 200px; cursor: pointer;" 
+           onclick="openImageModal(this.src)" 
+           alt="Data Lake Architecture">
+           <p class="note" style="font-size: 0.7rem; margin-top: 5px;">Source: Estuary</p>
+    </div>
+  
+</section>
+
+<!-- Slide: Data Mesh Organization -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Mesh</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-red">Data Organization</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-people-fill"></i> <strong>Domain Data Products:</strong> Autonomous datasets owned by teams</li>
+    <li><i class="bi bi-tools"></i> <strong>Self-Serve Platform:</strong> Shared infrastructure (Kubernetes, Terraform)</li>
+    <li><i class="bi bi-card-checklist"></i> <strong>Data Contracts:</strong> Schema, SLA, quality agreements</li>
+    <li><i class="bi bi-shield-lock-fill"></i> <strong>Federated Governance:</strong> Global policies enforced via code</li>
+    <li><i class="bi bi-bookmarks-fill"></i> <strong>Discovery Catalog:</strong> Central registry of domain products</li>
+  </ul> 
+  <div class="col-md-4">
+       <img src="https://d1ugv6dopk5bx0.cloudfront.net/s3fs-public/data-mesh-concept.webp" 
+           class="img-fluid zoom-img" 
+           style="max-width: 200px; cursor: pointer;" 
+           onclick="openImageModal(this.src)" 
+           alt="Data Lake Architecture">
+           <p class="note" style="font-size: 0.7rem; margin-top: 5px;">Source: Kelton Tech</p>
+          </div>
+</section>
+
+
+
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Mesh</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-red">Key Components</span> </h2>
+  <div class="row">
+    <div class="col-md-6">
+      
+      <ul class="list-unstyled">
+        <li><i class="bi bi-diagram-3-fill"></i> <strong>Domain Pipelines:</strong> Independent ETL/ELT flows</li>
+        <li><i class="bi bi-bricks"></i> <strong>Platform Templates:</strong> CI/CD, IaC scripts</li>
+        <li><i class="bi bi-file-earmark-text-fill"></i> <strong>Data Contracts:</strong> Standardized interfaces</li>
+        <li><i class="bi bi-shield-lock-fill"></i> <strong>Policy Engine:</strong> Federated enforcement</li>
+        <li><i class="bi bi-bookmarks-fill"></i> <strong>Catalog Service:</strong> Search &amp; discovery</li>
+      </ul>
+    </div>
+  
+  </div>
+</section>
+
+<!-- Slide: Key Components & Patterns -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Mesh</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-red">Patterns</span></h2>
+  <div class="row">
+
+    <div class="col-md-6">
+     
+      <ul class="list-unstyled">
+        <li><span class="badge bg-red">Domain Ownership</span> teams own their data</li>
+        <li><span class="badge bg-red">Data as Product</span> SLA-driven deliverables</li>
+        <li><span class="badge bg-red">Federated Governance</span> global standards</li>
+        <li><span class="badge bg-red">Self-Serve Infra</span> reusable components</li>
+        <li><span class="badge bg-red">Contract Interfaces</span> clear schemas &amp; APIs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 
+Slide: Use Cases
+   <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Mesh</div>
+        </div>
+        
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-red">Use Cases</span></h2>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><i class="bi bi-shop-window"></i> <strong>E-Commerce Domains:</strong> Marketing, Finance, Logistics data products</li>
+    <li class="list-group-item"><i class="bi bi-film"></i> <strong>Streaming Personalization:</strong> Content metadata, event logs, exec reports</li>
+    <li class="list-group-item"><i class="bi bi-gear-fill"></i> <strong>Manufacturing Insights:</strong> Domain-specific production analytics</li>
+  </ul>
+</section>
+-->
+
+<!-- Slide: Practical Example 
+<section>
+  <h2 class="slide-title"><span class="text-red">Practical Example:</span> Netflix Personalization</h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-film"></i> <strong>Domains:</strong>  
+      Content (Delta Lakehouse), User Logs (Data Fabric), Exec Reports (MDW)
+    </li>
+    <li><i class="bi bi-graph-up-arrow"></i> <strong>Outcome:</strong> Scalable personalization; rapid domain innovation</li>
+  </ul>
+  <div class="placeholder">[Insert multi-domain architecture diagram]</div>
+</section>-->
+
+<!-- Slide: Pros & Cons -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Mesh</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-red">Pros &amp; Cons</span></h2>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>✅ <span class="highlight">Domain scalability</span> with independent teams</li>
+        <li>✅ Enhanced data quality via domain expertise</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>⚠️ High organizational complexity</li>
+        <li>⚠️ Requires robust self-serve infrastructure</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide: Day-to-Day Operations -->
+   <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Data Mesh</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+  <h2 class="slide-title"><span class="text-red">Day-to-Day Operations</span></h2>
+  <ul class="list-unstyled">
+    <li><i class="bi bi-diagram-3-fill"></i> <strong>Domain Pipelines:</strong> Teams manage ETL schedules</li>
+    <li><i class="bi bi-check2-square"></i> <strong>Product SLAs:</strong> Monitor freshness, quality, usage</li>
+    <li><i class="bi bi-tools"></i> <strong>Platform Templates:</strong> Bootstrap new domains rapidly</li>
+    <li><i class="bi bi-file-lock-fill"></i> <strong>Contract Interfaces:</strong> Enforce schema &amp; API standards</li>
+    <li><i class="bi bi-bookmarks-fill"></i> <strong>Cross-Domain Discovery:</strong> Central catalog for products</li>
+  </ul>
+  <p class="note text-center">
+    <medium>Content adapted from James Serra’s “Deciphering Data Architectures,” 2025.</medium>
+  </p>
+</section>
+
+<style>
+  .text-red { color: #dc3545; }
+  .badge.bg-red { background-color: #f8d7da; color: #dc3545; }
+  .highlight { background-color: #fdff32; }
+</style>
+
+      <!-- Microsoft Fabric Section -->
+    <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Microsoft Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-purple">Microsoft Fabric - Overview</span></h2>
+        <p>
+          <strong>Microsoft Fabric</strong> is a unified lakehouse platform on OneLake, integrating Data Factory, Synapse, Power BI, and Notebooks with 
+          <span class="highlight">Direct Lake</span> analytics.
+           <div class="col-md-4">
+      <img src=" https://learn.microsoft.com/en-us/fabric/fundamentals/media/microsoft-fabric-overview/fabric-architecture.png" 
+           class="img-fluid zoom-img" 
+           style="max-width: 200px; cursor: pointer;" 
+           onclick="openImageModal(this.src)" 
+           alt="Data Lake Architecture">
+           <p class="note" style="font-size: 0.7rem; margin-top: 5px;">Source: Microsoft</p>
+    </div>
+         
+        </p>
+      </section>
+
+         <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Microsoft Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-purple">Data Organization</span></h2>
+        <ul class="list-unstyled">
+          <li><i class="bi bi-cloud-fill"></i> <strong>OneLake:</strong> Tenant-wide Delta Parquet store</li>
+          <li><i class="bi bi-gear-fill"></i> <strong>Workloads:</strong> Data Factory, Synapse SQL/Spark, Power BI, Notebooks</li>
+          <li><i class="bi bi-graph-up-arrow"></i> <strong>Direct Lake Mode:</strong> Live Power BI on Delta tables</li>
+          <li><i class="bi bi-shield-lock-fill"></i> <strong>Governance:</strong> MIP &amp; DLP policies across workloads</li>
+          <li><i class="bi bi-people-fill"></i> <strong>Domain Workspaces:</strong> Governed self-service areas</li>
+        </ul>
+             <div class="col-md-4">
+      <img src=" https://learn.microsoft.com/en-us/fabric/fundamentals/media/microsoft-fabric-overview/onelake-architecture.png" 
+           class="img-fluid zoom-img" 
+           style="max-width: 200px; cursor: pointer;" 
+           onclick="openImageModal(this.src)" 
+           alt="Data Lake Architecture">
+           <p class="note" style="font-size: 0.7rem; margin-top: 5px;">Source: Microsoft</p>
+    </div>
+      </section>
+
+        <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Microsoft Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-purple">Key Components</span> </h2>
+        <div class="row">
+          <div class="col-md-6">
+          
+            <ul class="list-unstyled">
+              <li><i class="bi bi-hdd-fill"></i> <strong>OneLake Storage:</strong> Delta Parquet foundation</li>
+              <li><i class="bi bi-terminal-fill"></i> <strong>Data Factory:</strong> Managed pipelines and integration</li>
+              <li><i class="bi bi-database-fill"></i> <strong>Synapse Pools:</strong> SQL &amp; Spark compute</li>
+              <li><i class="bi bi-bar-chart-fill"></i> <strong>Power BI:</strong> Direct Lake dashboards</li>
+              <li><i class="bi bi-journal-text"></i> <strong>Notebooks:</strong> Data science &amp; analytics</li>
+            </ul>
+          </div>
+          
+        </div>
+      </section>
+
+
+        <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Microsoft Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title" <span class="text-purple">Patterns</span></h2>
+        <div class="row">
+          
+          <div class="col-md-6">
+         
+            <ul class="list-unstyled">
+              <li><span class="badge bg-purple">Direct Lake</span> live analytics</li>
+              <li><span class="badge bg-purple">Git Integration</span> version control</li>
+              <li><span class="badge bg-purple">Auto Lineage</span> cross-workload tracing</li>
+              <li><span class="badge bg-purple">Auto-Scale</span> workload-based compute</li>
+              <li><span class="badge bg-purple">Workspace Isolation</span> domain-specific environments</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+        <!-- 
+        <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Microsoft Fabric</div>
+        </div>
+        
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-purple">Use Cases</span></h2>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><i class="bi bi-cart-fill"></i> <strong>Retail Analytics:</strong> Real-time inventory &amp; sales dashboards</li>
+          <li class="list-group-item"><i class="bi bi-people-fill"></i> <strong>Corporate Reporting:</strong> Financial close &amp; operational metrics</li>
+          <li class="list-group-item"><i class="bi bi-lightbulb-fill"></i> <strong>Data Science:</strong> Integrated ML pipelines in notebooks</li>
+        </ul>
+      </section> 
+      -->
+
+    <section class="position-relative">
+        <!-- Top Left Placeholder -->
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Data Architecture - Microsoft Fabric</div>
+        </div>
+        
+        <!-- Top Right Placeholder -->
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-purple">Day-to-Day Operations</span></h2>
+        <ul class="list-unstyled">
+          <li><i class="bi bi-cloud-arrow-down-fill"></i> <strong>Data Refresh:</strong> Automated pipelines via Data Factory</li>
+          <li><i class="bi bi-zap-fill"></i> <strong>Direct Lake Dashboards:</strong> Live updates without import</li>
+          <li><i class="bi bi-code-square"></i> <strong>Notebook CI/CD:</strong> Git-backed development</li>
+          <li><i class="bi bi-diagram-3-fill"></i> <strong>Lineage Insights:</strong> Auto-generated lineage views</li>
+          <li><i class="bi bi-graph-up-arrow"></i> <strong>Capacity Monitoring:</strong> Auto-scale compute usage</li>
+        </ul>
+      </section>
+
+      <style>
+        .text-purple { color: #6f42c1; }
+        .badge.bg-purple { background-color: #e2d9f3; color: #6f42c1; }
+        
+        /* Decision Framework specific flexbox styling */
+        .decision-flex {
+          display: flex !important;
+          gap: 2rem !important;
+        }
+        .decision-column {
+          flex: 1 !important;
+        }
+      </style>
+
+      <!-- Comparative Analysis Sections -->
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Comparative Analysis</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-primary">Architecture Comparison Matrix</span></h2>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="table-primary">
+              <tr>
+                <th>Architecture</th>
+                <th>Schema</th>
+                <th>Cost</th>
+                <th>Performance</th>
+                <th>Complexity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Data Lake</strong></td>
+                <td><span class="badge bg-info">Schema-on-Read</span></td>
+                <td><span class="badge bg-success">Very Low</span></td>
+                <td><span class="badge bg-warning">Variable</span></td>
+                <td><span class="badge bg-success">Low</span></td>
+              </tr>
+              <tr>
+                <td><strong>Data Warehouse</strong></td>
+                <td><span class="badge bg-primary">Schema-on-Write</span></td>
+                <td><span class="badge bg-danger">High</span></td>
+                <td><span class="badge bg-success">Predictable</span></td>
+                <td><span class="badge bg-warning">Medium</span></td>
+              </tr>
+              <tr>
+                <td><strong>Data Lakehouse</strong></td>
+                <td><span class="badge bg-secondary">Hybrid</span></td>
+                <td><span class="badge bg-warning">Medium</span></td>
+                <td><span class="badge bg-success">High</span></td>
+                <td><span class="badge bg-warning">Medium</span></td>
+              </tr>
+              <tr>
+                <td><strong>Data Mesh</strong></td>
+                <td><span class="badge bg-secondary">Federated</span></td>
+                <td><span class="badge bg-warning">Variable</span></td>
+                <td><span class="badge bg-success">Scalable</span></td>
+                <td><span class="badge bg-danger">High</span></td>
+              </tr>
+              <tr>
+                <td><strong>Data Fabric</strong></td>
+                <td><span class="badge bg-info">Virtual</span></td>
+                <td><span class="badge bg-warning">Medium</span></td>
+                <td><span class="badge bg-warning">Variable</span></td>
+                <td><span class="badge bg-danger">High</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="position-relative text-center">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Comparative Analysis</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h3 class="slide-title"><span class="text-primary">Data Architectures</span></h3>
+        <div class="text-center">
+          <img src="https://www.databricks.com/wp-content/uploads/2020/01/data-lakehouse-new.png" 
+               class="img-fluid zoom-img" 
+               style="max-width: 80%; cursor: pointer;" 
+               onclick="openImageModal(this.src)" 
+               alt="Data Architectures Overview">
+          <p class="note" style="font-size: 0.8rem; margin-top: 10px;">
+            Source: <a href="https://www.databricks.com/glossary/data-lakehouse" target="_blank">Databricks</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Comparative Analysis</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-primary">Decision Framework - Part 1</span></h2>
+        <div class="decision-flex">
+          <div class="decision-column">
+            <h4>Choose Data Lake When:</h4>
+            <ul class="list-unstyled">
+              <li>✅ Need <span class="highlight">cost-effective</span> storage</li>
+              <li>✅ Handling <span class="highlight">diverse data types</span></li>
+              <li>✅ Exploratory analytics & ML</li>
+              <li>✅ Rapid data ingestion required</li>
+            </ul>
+          </div>
+          <div class="decision-column">
+            <h4>Choose Data Warehouse When:</h4>
+            <ul class="list-unstyled">
+              <li>✅ Need <span class="highlight">consistent BI</span> performance</li>
+              <li>✅ Structured reporting requirements</li>
+              <li>✅ Strong governance needed</li>
+              <li>✅ Predictable query patterns</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Comparative Analysis</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-primary">Decision Framework - Part 2</span> </h2>
+        <div class="decision-flex">
+          <div class="decision-column">
+            <h4>Choose Lakehouse When:</h4>
+            <ul class="list-unstyled">
+              <li>✅ Need <span class="highlight">unified platform</span> for BI & ML</li>
+              <li>✅ ACID transactions required</li>
+              <li>✅ Real-time & batch workloads</li>
+              <li>✅ Open format preference</li>
+            </ul>
+          </div>
+          <div class="decision-column">
+            <h4>Choose Data Mesh When:</h4>
+            <ul class="list-unstyled">
+              <li>✅ Large <span class="highlight">distributed teams</span></li>
+              <li>✅ Domain-specific expertise</li>
+              <li>✅ Organizational scalability</li>
+              <li>✅ Decentralized ownership</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Table Formats Bridge Section -->
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Table Formats Revolution</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-success">The Missing Link</span></h2>
+        <p class="mb-4">
+          Remember our architectures? Each had trade-offs. <span class="highlight">Table formats solve the fundamental problem</span> 
+          of bringing warehouse reliability to lake economics.
+        </p>
+        <br>
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Traditional Data Lake Problems:</h3>
+            <ul class="list-unstyled">
+              <li>❌ No ACID transactions</li>
+              <li>❌ Inconsistent reads during writes</li>
+              <li>❌ No schema enforcement</li>
+              <li>❌ Difficult updates/deletes</li>
+              <li>❌ Small files performance issues</li>
+            </ul>
+          </div>
+        
+        </div>
+      </section>
+
+      <!-- Table Formats Solution Section -->
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Table Formats Revolution</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-success">Table Formats Solution</span></h2>
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="list-unstyled">
+              <li>✅ <span class="highlight">ACID guarantees</span> on object storage</li>
+              <li>✅ Consistent snapshot isolation</li>
+              <li>✅ Schema evolution & enforcement</li>
+              <li>✅ Efficient updates/deletes/merges</li>
+              <li>✅ Automatic compaction & optimization</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACID Explanation Section -->
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Table Formats Revolution</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-success">ACID Transactions</span> Explained</h2>
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="list-unstyled">
+              <li><i class="bi bi-atom text-primary"></i> <strong>Atomicity:</strong> All-or-nothing operations
+                <br><small class="text-muted">Example: INSERT 1000 records - either all succeed or all fail</small>
+              </li>
+              <li><i class="bi bi-check-circle text-success"></i> <strong>Consistency:</strong> Data integrity maintained
+                <br><small class="text-muted">Example: Foreign key constraints enforced across updates</small>
+              </li>
+              <li><i class="bi bi-eye-slash text-warning"></i> <strong>Isolation:</strong> Concurrent operations don't interfere
+                <br><small class="text-muted">Example: Reader sees complete snapshot, not partial writes</small>
+              </li>
+              <li><i class="bi bi-shield-check text-info"></i> <strong>Durability:</strong> Committed changes persist
+                <br><small class="text-muted">Example: System crash after commit - data remains intact</small>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Table Formats Overview -->
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Table Formats Revolution</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-success">Modern Table Formats - Overview</span></h2>
+        <p>
+          These formats enable <span class="highlight">Lakehouse architecture</span> by bringing warehouse capabilities to data lakes.
+        </p>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="text-center">
+              <h4><span class="badge bg-success">Delta Lake</span></h4>
+              <p>Databricks-originated, Spark-native</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center">
+              <h4><span class="badge bg-primary">Apache Iceberg</span></h4>
+              <p>Netflix-created, engine-agnostic</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center">
+              <h4><span class="badge bg-warning">Apache Hudi</span></h4>
+              <p>Uber-developed, streaming-focused</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Table Formats Revolution</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-success">Delta Lake</span> - Key Features</h2>
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="list-unstyled">
+              <li><i class="bi bi-check-circle-fill text-success"></i> <strong>ACID Transactions:</strong> Reliable concurrent reads/writes</li>
+              <li><i class="bi bi-clock-history text-info"></i> <strong>Time Travel:</strong> Query historical versions</li>
+              <li><i class="bi bi-arrow-repeat text-warning"></i> <strong>Schema Evolution:</strong> Add/modify columns safely</li>
+              <li><i class="bi bi-speedometer2 text-primary"></i> <strong>Optimizations:</strong> Z-ordering, compaction</li>
+              <li><i class="bi bi-shield-check text-success"></i> <strong>Data Quality:</strong> Constraints & expectations</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Table Formats Revolution</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-success">Delta Lake</span> - Best Practices</h2>
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="list-unstyled">
+              <li>🔧 Use <span class="highlight">partitioning</span> for large tables</li>
+              <li>🔧 Regular <span class="highlight">OPTIMIZE</span> operations</li>
+              <li>🔧 Set appropriate <span class="highlight">retention</span> policies</li>
+              <li>🔧 Leverage <span class="highlight">Z-ORDER</span> for co-location</li>
+              <li>🔧 Monitor <span class="highlight">small files</span> problem</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="position-relative">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Table Formats Revolution</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h2 class="slide-title"><span class="text-success">Table Formats Comparison</span></h2>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="table-success">
+              <tr>
+                <th>Feature</th>
+                <th>Delta Lake</th>
+                <th>Apache Iceberg</th>
+                <th>Apache Hudi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>ACID Support</strong></td>
+                <td><span class="badge bg-success">Full</span></td>
+                <td><span class="badge bg-success">Full</span></td>
+                <td><span class="badge bg-warning">Partial</span></td>
+              </tr>
+              <tr>
+                <td><strong>Time Travel</strong></td>
+                <td><span class="badge bg-success">Yes</span></td>
+                <td><span class="badge bg-success">Yes</span></td>
+                <td><span class="badge bg-warning">Limited</span></td>
+              </tr>
+              <tr>
+                <td><strong>Engine Support</strong></td>
+                <td><span class="badge bg-warning">Spark-focused</span></td>
+                <td><span class="badge bg-success">Multi-engine</span></td>
+                <td><span class="badge bg-warning">Spark-focused</span></td>
+              </tr>
+              <tr>
+                <td><strong>Streaming</strong></td>
+                <td><span class="badge bg-success">Excellent</span></td>
+                <td><span class="badge bg-warning">Good</span></td>
+                <td><span class="badge bg-success">Excellent</span></td>
+              </tr>
+              <tr>
+                <td><strong>Maturity</strong></td>
+                <td><span class="badge bg-success">High</span></td>
+                <td><span class="badge bg-warning">Growing</span></td>
+                <td><span class="badge bg-warning">Medium</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note text-center">
+          <small>Choose based on your ecosystem: Delta for Databricks, Iceberg for multi-engine, Hudi for streaming-heavy workloads</small>
+        </p>
+      </section>
+
+      <!-- Thank You Slide -->
+      <section class="position-relative text-center">
+        <div class="position-absolute top-0 start-0 p-3">
+          <div class="placeholder">Thank You</div>
+        </div>
+        <div class="position-absolute top-0 end-0 p-3">
+          <div class="placeholder">Flo 2025 &nbsp;|&nbsp; 19th Sep 2025</div>
+        </div>
+        <h1 class="slide-title">Thank You!</h1>
+        <h3 class="text-muted mb-4">Questions & Discussion</h3>
+        
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <h4 class="mb-3">Reference Site</h4>
+            <div class="text-center mb-3">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://aakashkh.github.io/data-grand-tour/" 
+                   alt="QR Code for Reference Site" 
+                   class="img-fluid" 
+                   style="max-width: 200px;">
+            </div>
+            <p class="text-primary">
+              <strong>https://aakashkh.github.io/data-grand-tour/</strong>
+            </p>
+            <p class="text-muted">
+              Scan the QR code or visit the link for additional resources, examples, and deep-dive content
+            </p>
+          </div>
+        </div>
+        
+        <div class="mt-4">
+          <p><strong>Speakers:</strong> Aakash Khandelwal & Jyotika Agarwal</p>
+          <p class="text-muted">Data's Grand Tour: Navigating the Modern Data Architecture Maze</p>
+        </div>
+      </section>
+
+
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="imageModal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8);" onclick="closeImageModal()">
+    <img id="modalImage" style="margin: auto; display: block; max-width: 90%; max-height: 90%; margin-top: 5%;">
+    <span style="position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer;" onclick="closeImageModal()">&times;</span>
+  </div>
+
+  <script>
+    function openImageModal(src) {
+      document.getElementById('imageModal').style.display = 'block';
+      document.getElementById('modalImage').src = src;
+    }
+    function closeImageModal() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+  </script>
+
+  <!-- Reveal.js and Bootstrap scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2zFzLQ5q7iaI7q2/L9E3+jefNQAhK1RHXez+3Ghg+n+6AmN9B+hN0Q/25VX"
+    crossorigin="anonymous"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      width: "100%",
+      height: "100%",
+      margin: 0.1,
+      minScale: 0.8,
+      maxScale: 1.2
+    });
+  </script>
+</body>
+
+
+</html>
