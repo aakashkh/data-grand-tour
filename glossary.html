@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Architecture Glossary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-header { background: linear-gradient(135deg, #495057 0%, #6c757d 100%); color: white; padding: 1rem 0; }
+        .text-dark-gray { color: #495057; }
+        .term-card { border-left: 4px solid #495057; margin-bottom: 1.5rem; }
+        .term-title { color: #495057; font-weight: 600; }
+        .business-impact { background-color: #e3f2fd; padding: 0.75rem; border-radius: 5px; margin: 0.5rem 0; }
+        .example { background-color: #f8f9fa; padding: 0.5rem; border-radius: 3px; font-style: italic; }
+        .section-header { background: linear-gradient(135deg, #495057 0%, #6c757d 100%); color: white; padding: 1rem; margin: 2rem 0 1rem 0; border-radius: 5px; }
+        .decision-framework { background-color: #fff3cd; padding: 1rem; border-radius: 5px; border-left: 4px solid #ffc107; }
+        @media print { .nav-header, .btn { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>📖 Data Architecture Glossary</h1>
+                <a href="index.html" class="btn btn-light">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="text-center mb-4">
+            <h2 class="text-dark-gray">Business User's Guide to Data Architecture</h2>
+            <p class="lead">A comprehensive reference for understanding modern data architecture terminology</p>
+        </div>
+
+        <div class="section-header">
+            <h3>📊 Storage & Schema Models</h3>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Schema-on-Read</h5>
+                <p><strong>What it means:</strong> Data structure is applied when you query the data, not when you store it.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Faster data ingestion, more flexibility to explore data in different ways.
+                </div>
+                <div class="example">
+                    <strong>Example:</strong> Storing customer feedback as raw text files, then analyzing sentiment when needed.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Schema-on-Write</h5>
+                <p><strong>What it means:</strong> Data structure is enforced when data is loaded into the system.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Consistent, reliable reports but slower to adapt to new data types.
+                </div>
+                <div class="example">
+                    <strong>Example:</strong> Financial transactions must follow strict format before entering the accounting system.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Columnar Storage</h5>
+                <p><strong>What it means:</strong> Data is stored column by column (like Excel columns).</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Much faster for analytics and reporting across large datasets.
+                </div>
+                <div class="example">
+                    <strong>Example:</strong> Analyzing total sales across millions of transactions.
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h3>⚙️ Processing Patterns</h3>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">ETL (Extract, Transform, Load)</h5>
+                <p><strong>What it means:</strong> Traditional approach - clean and structure data before storing it.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> High data quality but slower time-to-insight.
+                </div>
+                <div class="example">
+                    <strong>Example:</strong> Nightly processing of sales data into clean reports.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">ELT (Extract, Load, Transform)</h5>
+                <p><strong>What it means:</strong> Modern approach - store raw data first, clean it when needed.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Faster data availability, more flexibility for different analyses.
+                </div>
+                <div class="example">
+                    <strong>Example:</strong> Loading all customer interactions immediately, analyzing patterns later.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Stream Processing</h5>
+                <p><strong>What it means:</strong> Processing data continuously as it arrives.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Real-time insights but higher complexity and cost.
+                </div>
+                <div class="example">
+                    <strong>Example:</strong> Live website personalization, instant fraud alerts.
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h3>🏗️ Data Architecture Patterns</h3>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Data Lake</h5>
+                <p><strong>What it means:</strong> Central repository storing all types of raw data at low cost.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Flexible, cost-effective storage for future analytics needs.
+                </div>
+                <div class="example">
+                    <strong>Best for:</strong> Organizations with diverse data types and exploratory analytics needs.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Data Warehouse</h5>
+                <p><strong>What it means:</strong> Structured repository optimized for business reporting and analytics.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Reliable, fast reports but requires upfront planning.
+                </div>
+                <div class="example">
+                    <strong>Best for:</strong> Organizations with well-defined reporting requirements and compliance needs.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Data Lakehouse</h5>
+                <p><strong>What it means:</strong> Combines flexibility of data lakes with reliability of data warehouses.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Best of both worlds - flexibility and performance.
+                </div>
+                <div class="example">
+                    <strong>Best for:</strong> Organizations wanting both exploratory analytics and reliable reporting.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Data Mesh</h5>
+                <p><strong>What it means:</strong> Decentralized approach where business domains own their data as products.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Scales with organization size, improves data quality through ownership.
+                </div>
+                <div class="example">
+                    <strong>Best for:</strong> Large organizations with distinct business domains and mature data teams.
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h3>🔧 Modern Table Formats</h3>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Delta Lake</h5>
+                <p><strong>What it means:</strong> Enhanced data lake format with database-like reliability features.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Reliable data updates and historical tracking in data lakes.
+                </div>
+                <div class="example">
+                    <strong>Key benefit:</strong> Can update/delete data reliably, see data changes over time.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Apache Iceberg</h5>
+                <p><strong>What it means:</strong> Open format that works with multiple analytics engines.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Avoid vendor lock-in, use best tools for different tasks.
+                </div>
+                <div class="example">
+                    <strong>Key benefit:</strong> Freedom to choose different analytics tools without data migration.
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h3>🔒 Advanced Concepts</h3>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">ACID Transactions</h5>
+                <p><strong>What it means:</strong> Database properties ensuring data reliability (Atomicity, Consistency, Isolation, Durability).</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Guarantees data accuracy even during system failures.
+                </div>
+                <div class="example">
+                    <strong>Example:</strong> Bank transfer either completes fully or not at all - no partial transfers.
+                </div>
+            </div>
+        </div>
+
+        <div class="card term-card">
+            <div class="card-body">
+                <h5 class="term-title">Time Travel</h5>
+                <p><strong>What it means:</strong> Ability to query data as it existed at any point in the past.</p>
+                <div class="business-impact">
+                    <strong>Business Impact:</strong> Audit trails, debugging, regulatory compliance.
+                </div>
+                <div class="example">
+                    <strong>Example:</strong> "Show me customer data as it was on December 31st for year-end reporting."
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h3>🎯 Business Decision Framework</h3>
+        </div>
+
+        <div class="decision-framework">
+            <h5>When to Choose Each Architecture:</h5>
+            <ul>
+                <li><strong>Data Lake</strong> → High data variety, cost-conscious, exploratory analytics</li>
+                <li><strong>Data Warehouse</strong> → Established reporting needs, regulatory requirements</li>
+                <li><strong>Lakehouse</strong> → Want both flexibility and performance</li>
+                <li><strong>Data Fabric</strong> → Need real-time access across many systems</li>
+                <li><strong>Data Mesh</strong> → Large organization, domain expertise, mature data culture</li>
+                <li><strong>Microsoft Fabric</strong> → Want integrated solution, Microsoft ecosystem</li>
+            </ul>
+        </div>
+
+        <div class="alert alert-info mt-4">
+            <h5>Key Questions for Architecture Selection:</h5>
+            <ol>
+                <li><strong>Data Volume:</strong> How much data do you have? (GB, TB, PB)</li>
+                <li><strong>Data Variety:</strong> How many different data types and sources?</li>
+                <li><strong>Speed Requirements:</strong> Real-time, hourly, daily, or weekly updates?</li>
+                <li><strong>Team Size:</strong> How many people will work with the data?</li>
+                <li><strong>Budget:</strong> What's your cost tolerance for storage and compute?</li>
+                <li><strong>Compliance:</strong> What regulatory requirements must you meet?</li>
+            </ol>
+        </div>
+
+        <div class="text-center mt-5 mb-4">
+            <p class="text-muted"><em>This glossary serves as a reference for business stakeholders to understand and participate in data architecture discussions.</em></p>
+            <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
